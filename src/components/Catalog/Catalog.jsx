@@ -1,19 +1,19 @@
-import "./Catalog.css";
 // import { catalogItems } from "../../config";
 import { Link } from "react-router-dom";
 import LoadMore from "../LoadMore/LoadMore";
 import ProductFilter from "../ProductFilter/ProductFilter";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Search from "../Search/Search";
-export default function Catalog({ catalogType, dataProducts }) {
-  let classSection = catalogType === "top-sales" ? "top-sales" : "catalog";
+import "./Catalog.css";
+export default function Catalog({ dataProducts, pageType }) {
+  let classSection = pageType === "top-sales" ? "top-sales" : "catalog";
   return (
     <section className={classSection}>
       <h2 className="text-center">
-        {catalogType === "top-sales" ? "Хиты продаж!" : "Каталог"}
+        {pageType === "top-sales" ? "Хиты продаж!" : "Каталог"}
       </h2>
-      {catalogType === "products" && <Search />}
-      {catalogType === "products" && <ProductFilter />}
+      {pageType === "catalog" && <Search />}
+      {pageType !== "top-sales" && <ProductFilter />}
+
       <div className="row">
         {dataProducts.map((item, index) => {
           return (
@@ -37,7 +37,7 @@ export default function Catalog({ catalogType, dataProducts }) {
         })}
       </div>
 
-      {catalogType === "products" && <LoadMore />}
+      {pageType !== "top-sales" && <LoadMore />}
     </section>
   );
 }

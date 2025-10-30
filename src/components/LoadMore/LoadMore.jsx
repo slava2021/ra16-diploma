@@ -1,3 +1,5 @@
+import "./LoadMore.css";
+
 export default function LoadMore() {
   return (
     <div className="text-center">

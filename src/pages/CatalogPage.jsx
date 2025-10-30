@@ -4,7 +4,7 @@ import Catalog from "../components/Catalog/Catalog";
 export default function CatalogPage() {
   return (
     <>
-      <Catalog dataProducts={catalogItems} catalogType="products" />
+      <Catalog dataProducts={catalogItems} pageType="catalog" />
     </>
   );
 }

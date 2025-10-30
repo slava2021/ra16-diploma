@@ -41,3 +41,26 @@
     outline: none;
     box-shadow: none;
   }
+
+/* Add some custom style for products card */
+
+  .catalog-item-card .card-img-top{
+    min-height: 300px;
+    object-fit: cover !important ;
+  }
+  .card{
+    min-height: 100%;
+  }
+  .row{
+    row-gap: 20px;
+  }
+  .card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .card-body a,
+  .card-body button
+  {
+    align-self: flex-start;
+  }

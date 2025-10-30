@@ -7,6 +7,10 @@ export const navItems = [
 ];
 
 export const categoriesItems=[
+  {
+    "id": 11,
+    "title": "Все"
+  },
     {
       "id": 12,
       "title": "Мужская обувь"

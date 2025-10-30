@@ -5,8 +5,12 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-a {
+a, .nav a {
   color: #727e86;
+}
+
+.nav a:hover {
+  color: #000000;
 }
 
 a, a:hover, a:visited, a:active {

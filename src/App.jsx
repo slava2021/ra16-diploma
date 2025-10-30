@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import CatalogPage from "./pages/CatalogPage";
@@ -8,9 +9,10 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ContactsPage from "./pages/ContactsPage";
 import Header from "./Layout/Header/Header";
 import Footer from "./Layout/Footer/Footer";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import Banner from "./Layout/Banner/Banner";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "font-awesome/css/font-awesome.min.css";
+import "./App.css";
 
 function App() {
   return (
