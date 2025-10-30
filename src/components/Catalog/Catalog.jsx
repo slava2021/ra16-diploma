@@ -1,0 +1,43 @@
+import "./Catalog.css";
+// import { catalogItems } from "../../config";
+import { Link } from "react-router-dom";
+import LoadMore from "../LoadMore/LoadMore";
+import ProductFilter from "../ProductFilter/ProductFilter";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Search from "../Search/Search";
+export default function Catalog({ catalogType, dataProducts }) {
+  let classSection = catalogType === "top-sales" ? "top-sales" : "catalog";
+  return (
+    <section className={classSection}>
+      <h2 className="text-center">
+        {catalogType === "top-sales" ? "Хиты продаж!" : "Каталог"}
+      </h2>
+      {catalogType === "products" && <Search />}
+      {catalogType === "products" && <ProductFilter />}
+      <div className="row">
+        {dataProducts.map((item, index) => {
+          return (
+            <div className="col-4" key={index}>
+              <div className="card catalog-item-card" key={index}>
+                <img
+                  src={item.images[0]}
+                  className="card-img-top img-fluid"
+                  alt={item.title}
+                />
+                <div className="card-body">
+                  <p className="card-text">{item.title}</p>
+                  <p className="card-text">{item.price}</p>
+                  <Link to="/products/:id" className="btn btn-outline-primary">
+                    Заказать
+                  </Link>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {catalogType === "products" && <LoadMore />}
+    </section>
+  );
+}
