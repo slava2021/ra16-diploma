@@ -11,7 +11,7 @@ export default function Catalog({ dataProducts, pageType }) {
       <h2 className="text-center">
         {pageType === "top-sales" ? "Хиты продаж!" : "Каталог"}
       </h2>
-      {pageType === "catalog" && <Search />}
+      {pageType === "catalog" && <Search pagePostion="catalog" />}
       {pageType !== "top-sales" && <ProductFilter />}
 
       <div className="row">

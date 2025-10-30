@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import Nav from "../../components/Nav/Nav";
 import { navItems } from "../../config";
 import "./Header.css";
+import Search from "../../components/Search/Search";
 
 export default function Header() {
   const navHeaderItems = navItems.slice(0, navItems.length - 1);
@@ -18,12 +19,8 @@ export default function Header() {
               <Nav navItems={navHeaderItems} modulePosition="header" />
               <div>
                 <div className="header-controls-pics">
-                  <div
-                    data-id="search-expander"
-                    className="header-controls-pic header-controls-search"
-                  ></div>
                   {/* <!-- Do programmatic navigation on click to /cart.html --> */}
-
+                  <Search pagePostion="header" />
                   <Link
                     className="header-controls-pic header-controls-cart"
                     to="/cart"
@@ -32,12 +29,6 @@ export default function Header() {
                     <div className="header-controls-cart-menu"></div>
                   </Link>
                 </div>
-                <form
-                  data-id="search-form"
-                  className="header-controls-search-form form-inline invisible"
-                >
-                  <input className="form-control" placeholder="Поиск" />
-                </form>
               </div>
             </div>
           </nav>
