@@ -7,7 +7,7 @@ export default function Order() {
       <div className="card" style={formStyle}>
         <form className="card-body">
           <div className="form-group">
-            <label for="phone">Телефон</label>
+            <label htmlFor="phone">Телефон</label>
             <input
               className="form-control"
               id="phone"
@@ -15,7 +15,7 @@ export default function Order() {
             />
           </div>
           <div className="form-group">
-            <label for="address">Адрес доставки</label>
+            <label htmlFor="address">Адрес доставки</label>
             <input
               className="form-control"
               id="address"
@@ -28,7 +28,7 @@ export default function Order() {
               className="form-check-input"
               id="agreement"
             />
-            <label className="form-check-label" for="agreement">
+            <label className="form-check-label" htmlFor="agreement">
               Согласен с правилами доставки
             </label>
           </div>

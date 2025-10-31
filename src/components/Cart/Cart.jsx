@@ -29,7 +29,7 @@ export default function Cart() {
             </td>
           </tr>
           <tr>
-            <td colspan="5" className="text-right">
+            <td colSpan="5" className="text-right">
               Общая стоимость
             </td>
             <td>34 000 руб.</td>

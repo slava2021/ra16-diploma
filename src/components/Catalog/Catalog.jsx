@@ -5,6 +5,9 @@ import ProductFilter from "../ProductFilter/ProductFilter";
 import Search from "../Search/Search";
 import "./Catalog.css";
 export default function Catalog({ dataProducts, pageType }) {
+  // let urlParams = new URLSearchParams(window.location.search);
+  // console.log("catalog: ", urlParams.get("q"));
+
   let classSection = pageType === "top-sales" ? "top-sales" : "catalog";
   return (
     <section className={classSection}>
