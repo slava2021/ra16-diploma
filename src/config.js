@@ -6,6 +6,20 @@ export const navItems = [
     { link: "/Cart", title: "Корзина" },
 ];
 
+export const BASE_URL = 'http://localhost:7070/api';
+export const LOAD_MAX_ITEMS_LIMIT = 6;
+
+export const pathQuery ={ 
+    "topSales": "top-sales"
+  ,
+    "categories": "categories"
+  ,
+    "all": "items"
+  ,
+    "order": "order"
+  }
+
+
 export const categoriesItems=[
   {
     "id": 11,
@@ -26,7 +40,7 @@ export const categoriesItems=[
     {
       "id": 15,
       "title": "Детская обувь"
-    }
+    },
   ]
 
 export const catalogItems = [

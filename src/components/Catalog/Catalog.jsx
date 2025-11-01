@@ -1,46 +1,51 @@
 // import { catalogItems } from "../../config";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useActions } from "../../Hooks/useActions";
+import { pathQuery } from "../../config";
 import LoadMore from "../LoadMore/LoadMore";
 import ProductFilter from "../ProductFilter/ProductFilter";
 import Search from "../Search/Search";
 import "./Catalog.css";
-export default function Catalog({ dataProducts, pageType }) {
+import ProductItem from "../ProductItem/ProductItem";
+import Preloader from "../Preloader/Preloader";
+export default function Catalog() {
   // let urlParams = new URLSearchParams(window.location.search);
   // console.log("catalog: ", urlParams.get("q"));
+  const { catalogList, offset, hasMore, isLoading, error } = useSelector(
+    (state) => state.catalog
+  );
+  const { getCatalogProducts } = useActions();
 
-  let classSection = pageType === "top-sales" ? "top-sales" : "catalog";
+  useEffect(() => {
+    const fetchSettings = {
+      path: pathQuery.all,
+      offset: offset,
+      hasMore: hasMore,
+    };
+    getCatalogProducts(fetchSettings);
+  }, [getCatalogProducts]);
+
   return (
-    <section className={classSection}>
-      <h2 className="text-center">
-        {pageType === "top-sales" ? "Хиты продаж!" : "Каталог"}
-      </h2>
-      {pageType === "catalog" && <Search pagePostion="catalog" />}
-      {pageType !== "top-sales" && <ProductFilter />}
+    <section className="catalog">
+      <h2 className="text-center">Каталог</h2>
 
-      <div className="row">
-        {dataProducts.map((item, index) => {
-          return (
-            <div className="col-4" key={index}>
-              <div className="card catalog-item-card" key={index}>
-                <img
-                  src={item.images[0]}
-                  className="card-img-top img-fluid"
-                  alt={item.title}
-                />
-                <div className="card-body">
-                  <p className="card-text">{item.title}</p>
-                  <p className="card-text">{item.price}</p>
-                  <Link to="/products/:id" className="btn btn-outline-primary">
-                    Заказать
-                  </Link>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {pageType !== "top-sales" && <LoadMore />}
+      {isLoading ? (
+        <Preloader />
+      ) : error ? (
+        <h2>Ошибка: {error}</h2>
+      ) : (
+        <>
+          <Search pagePostion="catalog" />
+          <ProductFilter />
+          <div className="row">
+            {catalogList.map((item, index) => {
+              return <ProductItem key={index} {...item} />;
+            })}
+          </div>
+          {hasMore && <LoadMore />}
+        </>
+      )}
     </section>
   );
 }

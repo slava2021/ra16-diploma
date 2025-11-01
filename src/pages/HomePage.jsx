@@ -1,11 +1,11 @@
 import Catalog from "../components/Catalog/Catalog";
-import { catalogItems, topSalesItems } from "../config";
+import TopSales from "../components/TopSales/TopSales";
 
 export default function HomePage() {
   return (
     <>
-      <Catalog dataProducts={topSalesItems} pageType="top-sales" />
-      <Catalog dataProducts={catalogItems} pageType="homepage" />
+      <TopSales />
+      <Catalog />
     </>
   );
 }

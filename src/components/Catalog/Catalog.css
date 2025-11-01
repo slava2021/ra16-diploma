@@ -45,8 +45,9 @@
 /* Add some custom style for products card */
 
   .catalog-item-card .card-img-top{
-    min-height: 300px;
-    object-fit: cover !important ;
+    /* min-height: 200px;
+    max-height: 300px; */
+    /* object-fit: cover !important ; */
   }
   .card{
     min-height: 100%;

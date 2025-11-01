@@ -13,7 +13,7 @@ export default function Search({ pagePostion }) {
   // Main function fo query search
   function actionsSearch() {
     if (isSearchOpen && textInput !== "" && pagePostion === "header") {
-      console.log(pagePostion);
+      // console.log(pagePostion);
       setTimeout(() => {
         navigate(`/catalog?q=${encodeURIComponent(textInput.trim())}`);
         setTextInput("");
