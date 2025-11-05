@@ -1,26 +1,30 @@
-import { useState } from "react";
-import { categoriesItems } from "../../config";
+import { useActions } from "../../Hooks/useActions";
+import { useCatalog } from "../../Hooks/useCatalog";
+
 import "./ProductFilter.css";
 export default function ProductFilter() {
-  const [selectedCategory, setSelectedCategory] = useState("Все");
+  const { setActiveCategory } = useActions();
+  const { categoriesList, activeCategory } = useCatalog();
 
-  function handleClick(category) {
-    setSelectedCategory(category);
+  console.log("categoriesList: ", categoriesList);
+
+  function handleActiveCategory() {
+    setActiveCategory();
   }
 
   return (
     <ul className="catalog-categories nav justify-content-center">
-      {categoriesItems.map((item, index) => {
+      {categoriesList?.map((item, index) => {
         return (
           <li className="nav-item" key={index}>
             <a
               className={`nav-link ${
-                selectedCategory === item.title ? "active" : ""
+                activeCategory === item.title ? "active" : ""
               }`}
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                handleClick(item.title);
+                handleActiveCategory(item.title);
               }}
             >
               {item.title}

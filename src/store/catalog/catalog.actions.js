@@ -1,21 +1,28 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL, LOAD_MAX_ITEMS_LIMIT } from "../../config";
+import {api} from "../../utils/fetchApi";
+import { getCatalogUrl, getCategoriesUrl } from "../api";
 
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 export const getCatalogProducts = createAsyncThunk("catalog/getCatalogProducts", 
-    
-    async(setts, { rejectWithValue }) => {
-        console.log("setts: ", setts);
+
+    async(parameters, { rejectWithValue }) => {
+        
         await delay(2000);
         try {
-            const response = await fetch(`${BASE_URL}/${setts.path}?offset=${setts.offset}`);
-            if (!response.ok) {
-                throw new Error('Server Error!');
-            }
-            const data = await response.json();
+            const data = await api.get(getCatalogUrl(parameters));
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    });
+
+export const getCategoriesList = createAsyncThunk("catalog/getCategoriesList", 
+    async(path, { rejectWithValue }) => {
+        try {
+        const data = await api.get(getCategoriesUrl());
             return data;
         } catch (error) {
             return rejectWithValue(error.message);

@@ -10,7 +10,8 @@ const initialState = {
 export const topSalesSlice = createSlice({
     name: "topSales",
     initialState: initialState,
-    reducers: {},
+    reducers: {
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getTopSalesProducts.pending, (state) => {
@@ -27,3 +28,4 @@ export const topSalesSlice = createSlice({
     },
 
 })
+export const { testTopSales } = topSalesSlice.actions

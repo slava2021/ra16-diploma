@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { BASE_URL } from "../../config";
+import { getTopSalesUrl } from "../api";
+import { api } from "../../utils/fetchApi";
 
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -9,11 +10,7 @@ export const getTopSalesProducts = createAsyncThunk("topSales/getTopSalesProduct
     async(path, { rejectWithValue }) => {
         await delay(3000);
         try {
-            const response = await fetch(`${BASE_URL}/${path}`);
-            if (!response.ok) {
-                throw new Error('Server Error!');
-            }
-            const data = await response.json();
+        const data = await api.get(getTopSalesUrl(path));
             return data;
         } catch (error) {
             return rejectWithValue(error.message);

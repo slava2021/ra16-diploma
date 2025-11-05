@@ -1,49 +1,66 @@
-// import { catalogItems } from "../../config";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useActions } from "../../Hooks/useActions";
 import { pathQuery } from "../../config";
 import LoadMore from "../LoadMore/LoadMore";
 import ProductFilter from "../ProductFilter/ProductFilter";
 import Search from "../Search/Search";
-import "./Catalog.css";
 import ProductItem from "../ProductItem/ProductItem";
 import Preloader from "../Preloader/Preloader";
+import { useCatalog } from "../../Hooks/useCatalog";
+import { LOAD_MAX_ITEMS_LIMIT } from "../../config";
+import "./Catalog.css";
 export default function Catalog() {
-  // let urlParams = new URLSearchParams(window.location.search);
-  // console.log("catalog: ", urlParams.get("q"));
-  const { catalogList, offset, hasMore, isLoading, error } = useSelector(
-    (state) => state.catalog
-  );
-  const { getCatalogProducts } = useActions();
+  const { catalog } = useCatalog();
+  const { getCatalogProducts, incrementOffset, getCategoriesList } =
+    useActions();
+
+  const fetchSettings = {
+    path: pathQuery.all,
+    offset: catalog.offset,
+    hasMore: catalog.hasMore,
+    isLoading: true,
+  };
 
   useEffect(() => {
-    const fetchSettings = {
-      path: pathQuery.all,
-      offset: offset,
-      hasMore: hasMore,
-    };
     getCatalogProducts(fetchSettings);
-  }, [getCatalogProducts]);
+    getCategoriesList(pathQuery.categories);
+  }, []);
+
+  function handleLoadMore() {
+    if (catalog.hasMore && !catalog.isLoading) {
+      incrementOffset();
+      const newOffset = catalog.offset + LOAD_MAX_ITEMS_LIMIT;
+      fetchSettings.offset = newOffset;
+      fetchSettings.isLoading = true;
+      getCatalogProducts(fetchSettings);
+      fetchSettings.isLoading = false;
+    }
+  }
 
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
 
-      {isLoading ? (
+      {catalog.isLoading && catalog.offset === 0 ? (
         <Preloader />
-      ) : error ? (
-        <h2>Ошибка: {error}</h2>
+      ) : catalog.error ? (
+        <h2>Ошибка: {catalog.error}</h2>
       ) : (
         <>
           <Search pagePostion="catalog" />
           <ProductFilter />
           <div className="row">
-            {catalogList.map((item, index) => {
+            {catalog.catalogList.map((item, index) => {
               return <ProductItem key={index} {...item} />;
             })}
           </div>
-          {hasMore && <LoadMore />}
+          {catalog.isLoading && catalog.offset > 0 && (
+            <>
+              <br />
+              <Preloader />
+            </>
+          )}
+          {catalog.hasMore && <LoadMore handleLoadMore={handleLoadMore} />}
         </>
       )}
     </section>

@@ -1,17 +1,15 @@
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-// import { actions } from "../store";
 import * as catalogActions from "../store/catalog/catalog.actions";
 import * as topSalesActions from "../store/topSales/topSales.actions";
+import {actions as catalog} from "../store/catalog/catalog.slice";
+
 import { useMemo } from "react";
 
 const rootActions = {
-    // ...actions,
+    ...catalog,
     ...catalogActions,
     ...topSalesActions,
-    // ...actions.cart,
-    // ...actions.user,
-    // ...actions.order,
 };
 
 console.log("rootActions: ", rootActions);
