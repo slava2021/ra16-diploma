@@ -14,8 +14,10 @@ export default function TopSales() {
   const { getTopSalesProducts } = useActions();
 
   useEffect(() => {
-    getTopSalesProducts(pathQuery.topSales);
-  }, [getTopSalesProducts]);
+    if (topSalesList.length === 0) {
+      getTopSalesProducts(pathQuery.topSales);
+    }
+  }, []);
 
   return (
     <section className="top-sales">

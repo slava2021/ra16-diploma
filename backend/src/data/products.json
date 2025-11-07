@@ -49,8 +49,12 @@
         "available": true
       },
       {
-        "size": "16 US",
+        "size": "14 US",
         "available": false
+      },
+      {
+        "size": "16 US",
+        "available": true
       }
     ]
   },

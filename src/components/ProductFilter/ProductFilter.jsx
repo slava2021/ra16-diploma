@@ -1,20 +1,27 @@
 import { useActions } from "../../Hooks/useActions";
-import { useCatalog } from "../../Hooks/useCatalog";
+import { pathQuery } from "../../config";
 
 import "./ProductFilter.css";
-export default function ProductFilter() {
-  const { setActiveCategory } = useActions();
-  const { categoriesList, activeCategory } = useCatalog();
 
-  console.log("categoriesList: ", categoriesList);
+export default function ProductFilter({ categories, activeCategory }) {
+  const { setActiveCategory, getCatalogProducts } = useActions();
 
-  function handleActiveCategory() {
-    setActiveCategory();
+  function handleActiveCategory(title) {
+    const categoryId = categories.find((item) => item.title === title).id;
+
+    const fetchSettings = {
+      path: pathQuery.all,
+      offset: 0,
+      categoryId: categoryId,
+    };
+
+    setActiveCategory(title);
+    getCatalogProducts(fetchSettings);
   }
 
   return (
     <ul className="catalog-categories nav justify-content-center">
-      {categoriesList?.map((item, index) => {
+      {categories.map((item, index) => {
         return (
           <li className="nav-item" key={index}>
             <a

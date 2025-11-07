@@ -1,41 +1,66 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { pathQuery } from "../../config";
+import { useActions } from "../../Hooks/useActions";
+
 export default function Search({ pagePostion }) {
-  const [textInput, setTextInput] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
   const formRef = useRef("");
+  const [searchParams, setSearhParams] = useSearchParams();
+  const [localQueryInput, setLocalQueryInput] = useState("");
+  const { getCatalogProducts, setSearchQuery } = useActions();
+  const searchText = searchParams.has("q") ? searchParams.get("q") : "";
+
+  useEffect(() => {
+    setLocalQueryInput(searchText);
+  }, [searchText]);
 
   let className =
     pagePostion === "catalog"
       ? "catalog-search-form"
       : "header-controls-search-form";
-  // Main function fo query search
-  function actionsSearch() {
-    if (isSearchOpen && textInput !== "" && pagePostion === "header") {
-      // console.log(pagePostion);
+
+  const fetchSettings = {
+    path: pathQuery.all,
+    offset: 0,
+    q: localQueryInput,
+  };
+
+  // Функция поиска в Header, отображает поле поске и скрывает, устанвливает get запрос и направляет в раздел каталог
+  function actionSearch() {
+    if (isSearchOpen && localQueryInput && pagePostion === "header") {
+      // console.log("localQueryInput: ", localQueryInput);
+      searchParams.set("q", localQueryInput);
       setTimeout(() => {
-        navigate(`/catalog?q=${encodeURIComponent(textInput.trim())}`);
-        setTextInput("");
+        navigate(`/catalog?q=${encodeURIComponent(localQueryInput.trim())}`);
       }, 500);
       setIsSearchOpen(false);
       formRef.current.classList.add("invisible");
-    } else if (pagePostion === "catalog") {
-      // add some functions
+      setSearchQuery(localQueryInput);
+      getCatalogProducts(fetchSettings);
     } else {
       setIsSearchOpen(false);
       formRef.current.classList.add("invisible");
     }
   }
 
+  // console.log("setSearchText: ", searchText, "pagePostion: ", pagePostion);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setLocalQueryInput(localQueryInput);
+    setSearchQuery(localQueryInput);
+    getCatalogProducts(fetchSettings);
+  }
+
   // Add function for handle form actiopns
   function handleClick() {
-    actionsSearch();
+    actionSearch();
   }
 
   function handleChange(e) {
-    setTextInput(e.target.value);
-    // console.log("handleChange: ", textInput);
+    setSearhParams({ q: e.target.value });
   }
 
   function handleClickOpen() {
@@ -50,7 +75,7 @@ export default function Search({ pagePostion }) {
   }
 
   function handleOnKeyDwon(e) {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && pagePostion === "header") {
       e.preventDefault();
       handleClick();
     }
@@ -76,11 +101,11 @@ export default function Search({ pagePostion }) {
         className={`${className} form-inline ${
           pagePostion === "catalog" ? "" : "invisible"
         }`}
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handleSubmit}
       >
         <input
           id="search"
-          value={textInput}
+          value={localQueryInput}
           className="form-control"
           placeholder="Поиск"
           onChange={handleChange}

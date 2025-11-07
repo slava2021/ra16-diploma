@@ -17,13 +17,14 @@ export default function Catalog() {
   const fetchSettings = {
     path: pathQuery.all,
     offset: catalog.offset,
-    hasMore: catalog.hasMore,
-    isLoading: true,
   };
 
+  //Начальная загрузка каталога и фильтра
   useEffect(() => {
-    getCatalogProducts(fetchSettings);
-    getCategoriesList(pathQuery.categories);
+    if (catalog.catalogList.length === 0 && catalog.filter) {
+      getCategoriesList(pathQuery.categories);
+      getCatalogProducts(fetchSettings);
+    }
   }, []);
 
   function handleLoadMore() {
@@ -31,37 +32,47 @@ export default function Catalog() {
       incrementOffset();
       const newOffset = catalog.offset + LOAD_MAX_ITEMS_LIMIT;
       fetchSettings.offset = newOffset;
-      fetchSettings.isLoading = true;
+
+      fetchSettings.categoryId =
+        catalog.activeCategory === "Все"
+          ? 0
+          : catalog.categoriesList.find(
+              (item) => item.title === catalog.activeCategory
+            ).id;
       getCatalogProducts(fetchSettings);
-      fetchSettings.isLoading = false;
     }
   }
+
+  const currentPath = window.location.pathname;
 
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
+      {currentPath === "/catalog" && <Search pagePostion="catalog" />}
+      {catalog.filter === false && (
+        <ProductFilter
+          categories={catalog.categoriesList}
+          activeCategory={catalog.activeCategory}
+          offset={catalog.offset}
+        />
+      )}
+      {catalog.isLoading && catalog.offset === 0 && <Preloader />}
+      {catalog.error && <h2>Ошибка: {catalog.error}</h2>}
 
-      {catalog.isLoading && catalog.offset === 0 ? (
-        <Preloader />
-      ) : catalog.error ? (
-        <h2>Ошибка: {catalog.error}</h2>
-      ) : (
+      <div className="row">
+        {catalog.catalogList.map((item, index) => {
+          return <ProductItem key={index} {...item} />;
+        })}
+      </div>
+
+      {catalog.isLoading && catalog.offset > 0 && (
         <>
-          <Search pagePostion="catalog" />
-          <ProductFilter />
-          <div className="row">
-            {catalog.catalogList.map((item, index) => {
-              return <ProductItem key={index} {...item} />;
-            })}
-          </div>
-          {catalog.isLoading && catalog.offset > 0 && (
-            <>
-              <br />
-              <Preloader />
-            </>
-          )}
-          {catalog.hasMore && <LoadMore handleLoadMore={handleLoadMore} />}
+          <br />
+          <Preloader />
         </>
+      )}
+      {catalog.hasMore && !catalog.isLoading && (
+        <LoadMore handleLoadMore={handleLoadMore} />
       )}
     </section>
   );

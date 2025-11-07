@@ -5,6 +5,16 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+}
+
 a, .nav a {
   color: #727e86;
 }

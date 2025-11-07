@@ -1,4 +1,4 @@
-export const api = {
+export const fetchApi = {
     get: async (path) => {
         const response = await fetch(path);
         if (!response.ok) {

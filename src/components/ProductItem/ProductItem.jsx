@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-export default function ProductItem({ images, title, price }) {
+export default function ProductItem({ images, title, price, id }) {
   return (
     <div className="col-4">
       <div className="card catalog-item-card">
@@ -7,7 +7,7 @@ export default function ProductItem({ images, title, price }) {
         <div className="card-body">
           <p className="card-text">{title}</p>
           <p className="card-text">{price} руб.</p>
-          <Link to="/products/:id" className="btn btn-outline-primary">
+          <Link to={`/product/${id}`} className="btn btn-outline-primary">
             Заказать
           </Link>
         </div>
