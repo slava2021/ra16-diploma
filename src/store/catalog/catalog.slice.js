@@ -44,7 +44,6 @@ export const catalogSlice = createSlice({
             .addCase(getCatalogProducts.pending, (state) => {
                 state.isLoading = true;
             })
-
             .addCase(getCatalogProducts.fulfilled, (state, action) => {
                 state.catalogList = [...state.catalogList, ...action.payload];
                 state.isLoading = false;

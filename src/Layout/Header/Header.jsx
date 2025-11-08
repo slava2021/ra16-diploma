@@ -3,8 +3,10 @@ import Nav from "../../components/Nav/Nav";
 import { navItems } from "../../config";
 import "./Header.css";
 import Search from "../../components/Search/Search";
+import { useCart } from "../../Hooks/useCart";
 
 export default function Header() {
+  const { cart } = useCart();
   const navHeaderItems = navItems.slice(0, navItems.length - 1);
 
   return (
@@ -25,7 +27,11 @@ export default function Header() {
                     className="header-controls-pic header-controls-cart"
                     to="/cart"
                   >
-                    <div className="header-controls-cart-full">1</div>
+                    {cart.cartItems.length > 0 && (
+                      <div className="header-controls-cart-full">
+                        {cart.cartItems.length}
+                      </div>
+                    )}
                     <div className="header-controls-cart-menu"></div>
                   </Link>
                 </div>

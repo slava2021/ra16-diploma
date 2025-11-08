@@ -45,3 +45,9 @@ export const getItemUrl = (id) => {
     return url
 }
 
+export const getOrderUrl = (path) => {
+    console.log("getOrderUrl: ", path);
+    const url = new URL(`${BASE_URL}/${path}`);
+    return url
+}
+

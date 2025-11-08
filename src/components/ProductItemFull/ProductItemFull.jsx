@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useProduct } from "../../Hooks/useProduct";
 import { useActions } from "../../Hooks/useActions";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Preloader from "../Preloader/Preloader";
 import "./ProductItemFull.css";
 
@@ -9,9 +10,10 @@ export default function ProductItemFull() {
   const [isSizeAvailable, setIsSizeAvailable] = useState();
   const [quantity, setQuantity] = useState(1);
   const { product } = useProduct();
-  const { getProduct } = useActions();
+  const { getProduct, addToCart } = useActions();
   const { id } = useParams();
   const MAX_QUANTITY = 10;
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (
@@ -41,6 +43,20 @@ export default function ProductItemFull() {
 
   function handleDecrement() {
     setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
+  }
+
+  function handleAddTocart() {
+    if (!isSizeAvailable) {
+      return alert("Выберите размер");
+    } else
+      addToCart({
+        id,
+        title: productItem.title,
+        price: productItem.price,
+        quantity,
+        size: isSizeAvailable,
+      });
+    navigate("/cart");
   }
 
   return (
@@ -125,7 +141,10 @@ export default function ProductItemFull() {
                   </span>
                 </p>
               </div>
-              <button className="btn btn-danger btn-block btn-lg">
+              <button
+                onClick={handleAddTocart}
+                className="btn btn-danger btn-block btn-lg"
+              >
                 В корзину
               </button>
             </div>
