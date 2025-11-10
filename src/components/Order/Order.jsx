@@ -1,32 +1,33 @@
 import { useState } from "react";
-import { pathQuery } from "../../config";
 import { useActions } from "../../Hooks/useActions";
 import { useCart } from "../../Hooks/useCart";
 import Preloader from "../Preloader/Preloader";
 
 export default function Order() {
-  const { sendOrderData } = useActions();
+  const { sendOrderData, clearOrderResponse } = useActions();
   const { cart } = useCart();
   const formStyle = { maxWidth: "30rem", margin: "0 auto" };
+  // const [response, setResponse] = useState(null);
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
+  let response = "";
   let cartItems = localStorage.getItem("cartItems");
   cartItems = cartItems ? JSON.parse(localStorage.getItem("cartItems")) : [];
 
-  const fetchSettings = {
-    path: pathQuery.order,
-    phone: phone,
-    address: address,
-    items: cartItems?.map((item) => ({
-      id: item.id,
-      price: item.price,
-      count: item.quantity,
-    })),
-  };
+  if (cart.response !== null && cart.cartItems.length === 0) {
+    response = cart.response;
+  } else {
+    setTimeout(() => {
+      clearOrderResponse();
+    }, 10000);
+  }
 
-  function handleChange(e) {
+  function handleChangePhone(e) {
     setPhone(e.target.value);
+  }
+
+  function handleChangeAddress(e) {
     setAddress(e.target.value);
   }
 
@@ -34,9 +35,18 @@ export default function Order() {
     event.preventDefault();
 
     if (cartItems.length > 0) {
-      console.log("Im send data to server:", fetchSettings);
+      const fetchSettings = {
+        owner: {
+          phone: phone,
+          address: address,
+        },
+        items: cartItems?.map((item) => ({
+          id: Number(item.id),
+          price: item.price,
+          count: item.quantity,
+        })),
+      };
       sendOrderData(fetchSettings);
-      localStorage.clear();
     } else {
       alert("Корзина пуста");
     }
@@ -45,7 +55,14 @@ export default function Order() {
   return (
     <>
       {cart.isLoading ? (
-        <Preloader />
+        <>
+          <br />
+          <Preloader />
+        </>
+      ) : cart.error ? (
+        <h1 className="error">{cart.error}</h1>
+      ) : response === 204 && cart.cartItems.length === 0 ? (
+        <h1 className="success">Заказ успешно отправлен</h1>
       ) : (
         <section className="order">
           <h2 className="text-center">Оформить заказ</h2>
@@ -56,8 +73,9 @@ export default function Order() {
                 <input
                   className="form-control"
                   id="phone"
+                  type="phone"
                   placeholder="Ваш телефон"
-                  onChange={(e) => handleChange(e)}
+                  onChange={(e) => handleChangePhone(e)}
                   required
                 />
               </div>
@@ -66,8 +84,9 @@ export default function Order() {
                 <input
                   className="form-control"
                   id="address"
+                  type="text"
                   placeholder="Адрес доставки"
-                  onChange={(e) => handleChange(e)}
+                  onChange={(e) => handleChangeAddress(e)}
                   required
                 />
               </div>

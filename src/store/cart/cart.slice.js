@@ -6,6 +6,7 @@ const initialState = {
     isLoading:false,
     response: null,
     error: null,
+    status: null
 }
 
 export const cartSlice = createSlice({
@@ -13,14 +14,24 @@ export const cartSlice = createSlice({
     initialState: initialState,
     reducers: {
         addToCart: (state, action) => {
-            // state.cartItems = state.cartItems.filter(item => item.id !== action.payload.id);
-            state.cartItems.push(action.payload);
+            const existingItem = state.cartItems.findIndex(item => item.id === action.payload.id && item.size === action.payload.size);  
+            console.log("existingItem: ", existingItem)
+            if (existingItem !== -1) {
+                state.cartItems[existingItem].quantity += action.payload.quantity;
+                localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
+                console.log("state.cartItems: ", state.cartItems);
+            } else {
+                state.cartItems.push(action.payload);
+            } 
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
         },
         deleteFromCart: (state, action) => {
-            state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
+            state.cartItems = state.cartItems.filter(item => !(item.id === action.payload.id && item.size === action.payload.size));
             localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
         },
+        clearOrderResponse: (state) => {
+            state.response = null
+        }
 
     },
     extraReducers: (builder) => {
@@ -29,13 +40,17 @@ export const cartSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(sendOrderData.fulfilled, (state, action) => {
-                console.log("Response: ", action.payload);
                 state.response = action.payload
+                localStorage.clear();
+                state.cartItems = [];
                 state.isLoading = false;
-                // state.isLoading = setTimeout(() => state.isLoading = false, 3000);
+                // state.isLoading = setTimeout(() => state.isLoading = false, 1000);
+                
             })
-            .addCase(sendOrderData.rejected, (state) => {
+            .addCase(sendOrderData.rejected, (state, action) => {
                 state.isLoading = false;
+                state.status = 'rejected';
+                state.error = action.payload;
             })
     }
 })

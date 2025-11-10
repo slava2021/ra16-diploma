@@ -3,7 +3,11 @@ import { pathQuery } from "../../config";
 
 import "./ProductFilter.css";
 
-export default function ProductFilter({ categories, activeCategory }) {
+export default function ProductFilter({
+  categories,
+  activeCategory,
+  searchQuery,
+}) {
   const { setActiveCategory, getCatalogProducts } = useActions();
 
   function handleActiveCategory(title) {
@@ -12,10 +16,11 @@ export default function ProductFilter({ categories, activeCategory }) {
     const fetchSettings = {
       path: pathQuery.all,
       offset: 0,
+      q: searchQuery,
       categoryId: categoryId,
     };
 
-    setActiveCategory(title);
+    setActiveCategory({ title, categoryId });
     getCatalogProducts(fetchSettings);
   }
 

@@ -60,3 +60,20 @@ h2, .h2 {
   background-color: #727e86;
   border-color: #727e86;
 }
+
+/* Messages styles */
+.error{
+  text-align: center;
+  color: red;
+  padding: 2rem
+}
+.success{
+  text-align: center;
+  color: green;
+  padding: 2rem
+}
+.info{
+  text-align: center;
+  color: #1368a1;
+  padding: 2rem
+}

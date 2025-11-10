@@ -5,9 +5,7 @@ export const getCatalogUrl = (parameters) => {
     // console.log("parameters: ", parameters);
     
     const params = new URLSearchParams(parameters);
-    const categoryName = params.get("path");
-
-    // console.log("New UTLSearchParams: ", params.toString());
+    const pathName = params.get("path");
 
     params.delete("path");
 
@@ -15,18 +13,14 @@ export const getCatalogUrl = (parameters) => {
         params.delete("categoryId");
     }
 
-  
-    // console.log("After Delte: ", params.toString());
-   
+    if ( parameters.q === "") {
+        params.delete("q");
+    }
 
-   
-
-    // http://localhost:7070/api/items?categoryId=X&offset=X
+    console.log("New UTLSearchParams: ", params.toString());
 
 
-    console.log("params: ", categoryName + "?" + params.toString());
-
-    const url = new URL(`${BASE_URL}/${categoryName}?${params.toString()}`);
+    const url = new URL(`${BASE_URL}/${pathName}?${params.toString()}`);
     return url
 }
 
@@ -45,9 +39,8 @@ export const getItemUrl = (id) => {
     return url
 }
 
-export const getOrderUrl = (path) => {
-    console.log("getOrderUrl: ", path);
-    const url = new URL(`${BASE_URL}/${path}`);
+export const getOrderUrl = () => {
+    const url = new URL(`${BASE_URL}/order`);
     return url
 }
 

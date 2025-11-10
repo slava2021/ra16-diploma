@@ -22,7 +22,7 @@ export const topSalesSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(getTopSalesProducts.rejected, (state, action) => {
-                state.error = action.error.message;
+                state.error = action.payload;
                 state.isLoading = false;
             });
     },

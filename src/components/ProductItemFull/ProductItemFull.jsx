@@ -14,6 +14,7 @@ export default function ProductItemFull() {
   const { id } = useParams();
   const MAX_QUANTITY = 10;
   const navigate = useNavigate();
+  const productError404 = product.error === "404";
 
   useEffect(() => {
     if (
@@ -23,6 +24,12 @@ export default function ProductItemFull() {
       getProduct(id);
     }
   }, [getProduct, id]);
+
+  useEffect(() => {
+    if (productError404 && product.error) {
+      return navigate("*");
+    }
+  }, [productError404, navigate]);
 
   const productItem = product.productItem;
 
@@ -67,6 +74,8 @@ export default function ProductItemFull() {
           <Preloader />
           <br />
         </>
+      ) : product.error ? (
+        <h2 className="error">Ошибка: {product.error}</h2>
       ) : (
         <section className="catalog-item">
           <h2 className="text-center">{productItem.title}</h2>

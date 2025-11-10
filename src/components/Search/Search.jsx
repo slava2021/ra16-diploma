@@ -2,11 +2,13 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { pathQuery } from "../../config";
 import { useActions } from "../../Hooks/useActions";
+import { useCatalog } from "../../Hooks/useCatalog";
 
 export default function Search({ pagePostion }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const navigate = useNavigate();
   const formRef = useRef("");
+  const { catalog } = useCatalog();
   const [searchParams, setSearhParams] = useSearchParams();
   const [localQueryInput, setLocalQueryInput] = useState("");
   const { getCatalogProducts, setSearchQuery } = useActions();
@@ -23,6 +25,7 @@ export default function Search({ pagePostion }) {
 
   const fetchSettings = {
     path: pathQuery.all,
+    categoryId: catalog.categoryId,
     offset: 0,
     q: localQueryInput,
   };
@@ -44,8 +47,6 @@ export default function Search({ pagePostion }) {
       formRef.current.classList.add("invisible");
     }
   }
-
-  // console.log("setSearchText: ", searchText, "pagePostion: ", pagePostion);
 
   function handleSubmit(e) {
     e.preventDefault();

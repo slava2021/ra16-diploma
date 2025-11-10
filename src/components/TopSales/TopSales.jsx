@@ -25,7 +25,7 @@ export default function TopSales() {
       {isLoading ? (
         <Preloader />
       ) : error ? (
-        <h2>Ошибка: {error}</h2>
+        <h2 className="error">Ошибка: {error}</h2>
       ) : (
         <div className="row">
           {topSalesList.map((item, index) => {

@@ -34,7 +34,8 @@ export const catalogSlice = createSlice({
             state.offset += LOAD_MAX_ITEMS_LIMIT
         },
         setActiveCategory:(state, action) => {
-            state.activeCategory = action.payload
+            state.activeCategory = action.payload.title
+            state.categoryId = action.payload.categoryId
             state.offset = 0
             state.catalogList = []
         },
