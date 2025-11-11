@@ -1,5 +1,4 @@
 export const errorHandling = (response) => {
-        // throw new Error('Сервер не отвечает');
         switch (response.status) {
             case 404:
                 return 404;

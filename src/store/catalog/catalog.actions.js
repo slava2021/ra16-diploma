@@ -5,9 +5,7 @@ import { errorMessage, errorHandling } from "../../utils/errorHandling";
 
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-
+}
 
 export const getCatalogProducts = createAsyncThunk("catalog/getCatalogProducts", 
 
@@ -20,7 +18,7 @@ export const getCatalogProducts = createAsyncThunk("catalog/getCatalogProducts",
             const data = await response.json();
             return data;
         } catch (error) {
-           return rejectWithValue(errorMessage(error));
+        return rejectWithValue(errorMessage(error));
         }
     });
 

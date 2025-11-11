@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useActions } from "../../Hooks/useActions";
-// import { pathQuery } from "../../config";
 import ProductItem from "../ProductItem/ProductItem";
 import "./TopSales.css";
 import { pathQuery } from "../../config";

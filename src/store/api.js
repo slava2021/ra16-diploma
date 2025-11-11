@@ -1,8 +1,6 @@
 import { BASE_URL } from "../config";
 
 export const getCatalogUrl = (parameters) => {
-
-    // console.log("parameters: ", parameters);
     
     const params = new URLSearchParams(parameters);
     const pathName = params.get("path");
@@ -16,9 +14,6 @@ export const getCatalogUrl = (parameters) => {
     if ( parameters.q === "") {
         params.delete("q");
     }
-
-    console.log("New UTLSearchParams: ", params.toString());
-
 
     const url = new URL(`${BASE_URL}/${pathName}?${params.toString()}`);
     return url

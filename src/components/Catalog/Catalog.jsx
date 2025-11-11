@@ -51,8 +51,6 @@ export default function Catalog() {
       <h2 className="text-center">Каталог</h2>
       {currentPath === "/catalog" && <Search pagePostion="catalog" />}
 
-      {/* {catalog.error && <h2 className="error">Ошибка: {catalog.error}</h2>} */}
-
       {catalog.filter === false && catalog.error === null && (
         <ProductFilter
           categories={catalog.categoriesList}

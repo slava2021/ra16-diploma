@@ -5,21 +5,16 @@ import { errorHandling, errorMessage } from "../../utils/errorHandling";
 
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
+}
 
 export const sendOrderData = createAsyncThunk("cart/sendOrderData", 
     async(data, { rejectWithValue }) => {
-        console.log("sendOrderData Data: ", data);
         await delay(2000);
     try {
         const url = getOrderUrl();
         const response = await fetchApi.post(url, data);
     errorHandling(response);
     return response.status;
-} catch (error) {
+    } catch (error) {
     return rejectWithValue(errorMessage(error));
-}
-
-}
-
-);
+}});

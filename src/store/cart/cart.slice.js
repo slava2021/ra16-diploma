@@ -19,7 +19,6 @@ export const cartSlice = createSlice({
             if (existingItem !== -1) {
                 state.cartItems[existingItem].quantity += action.payload.quantity;
                 localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
-                console.log("state.cartItems: ", state.cartItems);
             } else {
                 state.cartItems.push(action.payload);
             } 
@@ -44,8 +43,6 @@ export const cartSlice = createSlice({
                 localStorage.clear();
                 state.cartItems = [];
                 state.isLoading = false;
-                // state.isLoading = setTimeout(() => state.isLoading = false, 1000);
-                
             })
             .addCase(sendOrderData.rejected, (state, action) => {
                 state.isLoading = false;

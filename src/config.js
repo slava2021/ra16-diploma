@@ -19,7 +19,7 @@ export const pathQuery ={
     "order": "order"
   }
 
-
+// Данные используемые для тестирования/проверки
 export const categoriesItems=[
   {
     "id": 11,

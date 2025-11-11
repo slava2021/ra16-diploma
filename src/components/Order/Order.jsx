@@ -7,7 +7,6 @@ export default function Order() {
   const { sendOrderData, clearOrderResponse } = useActions();
   const { cart } = useCart();
   const formStyle = { maxWidth: "30rem", margin: "0 auto" };
-  // const [response, setResponse] = useState(null);
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 

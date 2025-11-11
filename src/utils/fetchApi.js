@@ -8,8 +8,6 @@ export const fetchApi = {
     },
     post: async (path, data) => {
 
-        console.log("POST data: ", JSON.stringify(data), data, "POST path: ", path.href);
-
         const response = await fetch(`${path.href}`,
          {
             method: 'POST',

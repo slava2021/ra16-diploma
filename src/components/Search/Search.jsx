@@ -33,7 +33,6 @@ export default function Search({ pagePostion }) {
   // Функция поиска в Header, отображает поле поске и скрывает, устанвливает get запрос и направляет в раздел каталог
   function actionSearch() {
     if (isSearchOpen && localQueryInput && pagePostion === "header") {
-      // console.log("localQueryInput: ", localQueryInput);
       searchParams.set("q", localQueryInput);
       setTimeout(() => {
         navigate(`/catalog?q=${encodeURIComponent(localQueryInput.trim())}`);
@@ -55,7 +54,7 @@ export default function Search({ pagePostion }) {
     getCatalogProducts(fetchSettings);
   }
 
-  // Add function for handle form actiopns
+  // Функция обработки компонента поиска в HEADER
   function handleClick() {
     actionSearch();
   }
